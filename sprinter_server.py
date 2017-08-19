@@ -13,15 +13,16 @@ def index():
 def form():
     return render_template('form.html')
 
-
 @app.route('/story/edit', methods=['POST'])
 def save():
     if request.method == 'POST':
         print("POST request completed")
+        form = request.form
         fieldnames = ['Story line', 'User Story', 'Acceptance Criteria', 'BV', 'Est']
-        with open('form.csv', 'w') as file:
-            csvfile = csv.writer(file)
-            csvfile.writerow(fieldnames)
+        with open('form.csv', 'a') as file:
+            writer = csv.writer(file)
+            for key, value in form.items():
+                writer.writerow([key, value])
     return redirect('/')
 
 
