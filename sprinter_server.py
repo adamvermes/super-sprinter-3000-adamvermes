@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, request, session
 import csv
+import functions
 
 app = Flask(__name__)
 
@@ -13,15 +14,11 @@ def index():
 def form():
     return render_template('form.html')
 
-@app.route('/story/edit', methods=['POST'])
+
+@app.route('/save-story', methods=['Get', 'POST'])
 def save():
-    if request.method == 'POST':
-        print("POST request completed")
-        form = request.form
-        with open('form.csv', 'a') as file:
-            writer = csv.writer(file)
-            for key, value in form.items():
-                writer.writerow([key, value])
+    form = request.form
+    functions.save_story(form)
     return redirect('/')
 
 
